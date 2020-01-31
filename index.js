@@ -28,7 +28,8 @@ function addItem() {
 
 function checkItem() {
     $("ul").on("click", "button.shopping-item-toggle", function(event) {
-        $(this).closest("li").find("span").toggleClass(".shopping-item__checked")
+                
+        $(this).parent().siblings().toggleClass("shopping-item__checked")
         event.stopPropagation();
     })
 };
