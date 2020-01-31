@@ -1,49 +1,45 @@
-//1. eneter items need to purchase by entering text and hitting "return" or clicking "add item" button
+//1. enter items need to purchase by entering text and hitting "return" or clicking "add item" button
 //2. check and uncheck items on the list by clicking "check" button
 //3. permanently remove items from the list by clicking "delete" button
 
+
 function addItem() {
 
-   $("js-shopping-list-form").submit(function(event) {
-   event.preventDefault();
-   const itemText = $("input").val();
+   $("#js-shopping-list-form").submit(event => {
+     event.preventDefault();
+     const newItemText = $("#js-shopping-list-form").find("input#shopping-list-entry").val();
+     
+     let item = `<li>
+     <span class="shopping-item">${newItemText}</span>
+     <div class="shopping-item-controls">
+       <button class="shopping-item-toggle">
+         <span class="button-label">check</span>
+       </button>
+       <button class="shopping-item-delete">
+         <span class="button-label">delete</span>
+       </button>
+     </div>
+   </li>`;
     
-   let listHTML = 
-   `<span class="shopping-item">${itemText}</span>
-   <div class="shopping-item-controls">
-     <button class="shopping-item-toggle">
-       <span class="button-label">check</span>
-     </button>
-     <button class="shopping-item-delete">
-       <span class="button-label">delete</span>
-     </button>
-   </div>`;
-
-   let newListItem = document.createElement("li");
-   newListItem.innerHTML = listHTML;
- $("ul.shopping-list").append(newListItem);
-
-   })
-}
-
+     $("body ul.shopping-list").append(item);
+     $("input#shopping-list-entry").val("");
+})
+};
 
 function checkItem() {
-  $("ul.shopping-list, li, button.shopping-item-toggle").on("click", function(event) {
-    event.stopPropagation();
-      const itemName = $("ul.shopping-list li span.shopping-item");
-      $(itemName).toggleClass("shopping-item__checked");
-      
-  })
-
-}
+    $("ul").on("click", "button.shopping-item-toggle", function(event) {
+        $(this).closest("li").find("span").toggleClass(".shopping-item__checked")
+        event.stopPropagation();
+    })
+};
 
 
 function removeItem() {
-    $("ul.shopping-list, li, button.shopping-item-delete").on("click", function(event) {
-    $(this).remove();
+    $("ul").on("click", "button.shopping-item-delete", function(event) {
+    this.closest("li").remove();
     });
-}
+};
 
-$(addItem)
-$(checkItem)
-$(removeItem)
+$(addItem);
+$(checkItem);
+$(removeItem);
